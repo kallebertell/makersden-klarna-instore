@@ -168,7 +168,8 @@ export const ShoppingPage = () => {
                 style={{
                   textDecoration: "underline",
                   fontSize: "10px",
-                  paddingTop: `${sizes.m}px`
+                  paddingTop: `${sizes.m}px`,
+                  cursor: "pointer"
                 }}
                 onClick={() =>
                   handleScanResult({
