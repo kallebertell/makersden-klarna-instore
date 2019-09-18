@@ -130,7 +130,7 @@ export const ShoppingPage = () => {
                   flex: 1
                 }}
               >
-                Start scanning to add products to your shopping cart
+                Start scanning barcodes to add products to your shopping cart
               </p>
             )}
             {products.length > 0 && (
@@ -143,7 +143,7 @@ export const ShoppingPage = () => {
           </FullWidth>
 
           <FullWidth>
-            <Button onClick={startScanning}>Scan Barcode</Button>
+            <Button onClick={startScanning}>Scan Product Barcode</Button>
             <VerticalSpacer size="s" />
             <Button onClick={pay} disabled={products.length < 1}>
               Pay with Klarna
@@ -156,14 +156,15 @@ export const ShoppingPage = () => {
         <>
           <FullWidth>
             <Logo />
-            <Title>Scan Product</Title>
+            <Title>Scan Product Barcode</Title>
             <Scanner onScanResult={handleScanResult} />
             <p
               style={{
                 paddingTop: 50
               }}
             >
-              Item will automatically be added to cart once serial is detected.
+              Item will automatically be added to cart once serial is detected
+              from barcode.
               <div
                 style={{
                   textDecoration: "underline",
