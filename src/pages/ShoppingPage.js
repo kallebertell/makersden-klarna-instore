@@ -214,7 +214,7 @@ export const ShoppingPage = () => {
             <span
               role="img"
               aria-label="party popper"
-              style={{ fontSize: "130px", display: "block" }}
+              style={{ fontSize: "125px", display: "block" }}
             >
               🎉
             </span>
