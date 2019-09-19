@@ -14,15 +14,6 @@ import { CartItem } from "../components/CartItem";
 import { getProduct, createSession, createOrder } from "../utils/api";
 import { sizes } from "../utils/theme";
 
-const ScannerModal = styled.div`
-  background: rgba(0, 0, 0, 0.2);
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-`;
-
 const toOderLine = ({ name, price, serial, imageUrl }) => ({
   type: "physical",
   reference: serial,
@@ -39,7 +30,7 @@ const toOderLine = ({ name, price, serial, imageUrl }) => ({
 const baseUrl = `${window.location.protocol}/${window.location.host}`;
 
 export const ShoppingPage = () => {
-  const [status, setStatus] = React.useState("base");
+  const [status, setStatus] = React.useState("cart");
   const [products, setProducts] = React.useState([]);
   const [orderId, setOrderId] = React.useState("");
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
@@ -49,7 +40,7 @@ export const ShoppingPage = () => {
   }, [setStatus]);
 
   const stopScanning = React.useCallback(() => {
-    setStatus("base");
+    setStatus("cart");
   }, [setStatus]);
 
   const handleScanResult = React.useCallback(
@@ -57,7 +48,7 @@ export const ShoppingPage = () => {
       const serial = result.getText();
       const response = await getProduct(serial);
       setProducts(p => p.concat(response.data));
-      setStatus("base");
+      setStatus("cart");
     },
     [setStatus, setProducts]
   );
@@ -112,15 +103,11 @@ export const ShoppingPage = () => {
 
   return (
     <Container>
-      {status === "base" && (
+      {status === "cart" && (
         <>
           <FullWidth>
             <Logo />
-            <Title
-              onClick={() => handleScanResult({ getText: () => Math.random() })}
-            >
-              Shopping Cart
-            </Title>
+            <Title>Shopping Cart</Title>
 
             {products.length === 0 && (
               <p
