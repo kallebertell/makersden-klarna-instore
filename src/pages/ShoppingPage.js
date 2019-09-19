@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { Container } from "../components/Container";
 import { Title } from "../components/Title";
+import { PartyPopper } from "../components/PartyPopper";
 import { Button } from "../components/Button";
 import { QrCode } from "../components/QrCode";
 import { Scanner } from "../components/Scanner";
@@ -10,9 +11,10 @@ import { VerticalSpacer } from "../components/Spacer";
 import { Logo } from "../components/Logo";
 import { FullWidth } from "../components/FullWidth";
 import { CartItem } from "../components/CartItem";
+import { FadeIn } from "../components/FadeIn";
 
 import { getProduct, createSession, createOrder } from "../utils/api";
-import { sizes } from "../utils/theme";
+import { sizes, colors } from "../utils/theme";
 
 const toOderLine = ({ name, price, serial, imageUrl }) => ({
   type: "physical",
@@ -27,7 +29,16 @@ const toOderLine = ({ name, price, serial, imageUrl }) => ({
   total_tax_amount: 0
 });
 
-const baseUrl = `${window.location.protocol}/${window.location.host}`;
+const baseUrl = `${window.location.protocol}//${window.location.host}`;
+
+const DemoAction = styled.a`
+  display: block;
+  text-decoration: underline;
+  font-size: 10px;
+  color: ${colors.black};
+  cursor: pointer;
+  padding-top: ${sizes.m};
+`;
 
 export const ShoppingPage = () => {
   const [status, setStatus] = React.useState("cart");
@@ -110,13 +121,7 @@ export const ShoppingPage = () => {
             <Title>Shopping Cart</Title>
 
             {products.length === 0 && (
-              <p
-                style={{
-                  paddingTop: 50,
-                  paddingBottom: 50,
-                  flex: 1
-                }}
-              >
+              <p style={{ padding: 50, flex: 1 }}>
                 Start scanning barcodes to add products to your shopping cart
               </p>
             )}
@@ -141,24 +146,17 @@ export const ShoppingPage = () => {
 
       {status === "scanning" && (
         <>
-          <FullWidth>
+          <div>
             <Logo />
             <Title>Scan Product Barcode</Title>
-            <Scanner onScanResult={handleScanResult} />
-            <p
-              style={{
-                paddingTop: 50
-              }}
-            >
+          </div>
+          <Scanner onScanResult={handleScanResult} />
+          <div>
+            <p style={{ paddingTop: 50 }}>
               Item will automatically be added to cart once serial is detected
               from barcode.
-              <div
-                style={{
-                  textDecoration: "underline",
-                  fontSize: "10px",
-                  paddingTop: `${sizes.m}px`,
-                  cursor: "pointer"
-                }}
+              <DemoAction
+                style={{ paddingTop: sizes.m }}
                 onClick={() =>
                   handleScanResult({
                     getText: () =>
@@ -169,10 +167,10 @@ export const ShoppingPage = () => {
                 }
               >
                 or add demo product
-              </div>
+              </DemoAction>
             </p>
-          </FullWidth>
-          <Button onClick={stopScanning}>Close</Button>
+            <Button onClick={stopScanning}>Close</Button>
+          </div>
         </>
       )}
 
@@ -200,14 +198,8 @@ export const ShoppingPage = () => {
             <Logo />
             <Title>Payment completed</Title>
             <VerticalSpacer size="l" />
-            <span
-              role="img"
-              aria-label="party popper"
-              style={{ fontSize: "125px", display: "block" }}
-            >
-              🎉
-            </span>
           </FullWidth>
+          <PartyPopper />
           <p>Bring your items to a counter for de-tagging</p>
           <FullWidth>
             {products.map(({ serial, ...rest }) => (
@@ -224,8 +216,16 @@ export const ShoppingPage = () => {
             <Logo />
             <Title>Show to Salesperson</Title>
           </div>
-          <QrCode url={`${baseUrl}/verify/${orderId}`} />
+          <FadeIn>
+            <QrCode url={`${baseUrl}/verify/${orderId}`} />
+          </FadeIn>
           <p>Scan to verify purchase</p>
+          <DemoAction
+            target="#verify-purchase"
+            href={`${baseUrl}/verify/${orderId}`}
+          >
+            or open in a new tab
+          </DemoAction>
           <Button onClick={closeQrCode}>Close</Button>
         </>
       )}

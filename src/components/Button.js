@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   line-height: 18px;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
   &:focus {
     outline: none;
   }

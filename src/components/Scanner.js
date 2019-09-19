@@ -2,6 +2,7 @@ import * as React from "react";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import { pathOr } from "ramda";
 import styled from "styled-components";
+import { FadeIn } from "../components/FadeIn";
 
 const codeReader = new BrowserMultiFormatReader();
 
@@ -77,13 +78,15 @@ export const Scanner = ({ onScanResult }) => {
         <video ref={videoRef} width="100%" height="auto" />
       )}
       {permissionState === "unknown" && (
-        <LoaderContainer>loading</LoaderContainer>
+        <FadeIn>
+          <LoaderContainer>loading</LoaderContainer>
+        </FadeIn>
       )}
       {permissionState === "nope" && (
-        <>
-          <h1>Permissions Required</h1>
-          <h2>Please allow access to the camera</h2>
-        </>
+        <LoaderContainer>
+          <p>Permissions Required</p>
+          <p>Please allow access to the camera</p>
+        </LoaderContainer>
       )}
 
       <div>
